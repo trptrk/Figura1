@@ -19,6 +19,7 @@ import org.figuramc.figura.gui.FiguraToast;
 import org.figuramc.figura.gui.PopupMenu;
 import org.figuramc.figura.gui.screens.WardrobeScreen;
 import org.figuramc.figura.lua.FiguraLuaPrinter;
+import org.figuramc.figura.utils.EntityUtils;
 import org.figuramc.figura.utils.FiguraText;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -130,6 +131,7 @@ public abstract class MinecraftMixin {
         AvatarManager.clearAllAvatars();
         FiguraLuaPrinter.clearPrintQueue();
         NetworkStuff.unsubscribeAll();
+        EntityUtils.clearEntityUUIDCache();
     }
 
     @Inject(at = @At("HEAD"), method = "disconnect()V")
