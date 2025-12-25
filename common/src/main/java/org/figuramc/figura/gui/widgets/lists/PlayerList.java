@@ -234,7 +234,8 @@ public class PlayerList extends AbstractList {
     }
 
     private void selectLocalPlayer() {
-        PlayerPermPackElement local = Minecraft.getInstance().player != null ? players.get(Minecraft.getInstance().player.getUUID()) : null;
+        var playerUUID = EntityUtils.getEntityUUIDSync(Minecraft.getInstance().player);
+        PlayerPermPackElement local = Minecraft.getInstance().player != null ? players.get(playerUUID) : null;
         if (local != null) {
             local.onPress();
         } else {
