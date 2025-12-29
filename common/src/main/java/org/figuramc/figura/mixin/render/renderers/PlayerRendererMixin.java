@@ -145,9 +145,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         if (config == 0 || AvatarManager.panic || !(entity instanceof Player player) || this.entityRenderDispatcher.distanceToSqr(player) > 4096)
             return;
 
-		var playerUUID = EntityUtils.getEntityUUID(player).getNow(null);
-        if (playerUUID == null) return;
-
+		
         // get customizations
         var playerUUID = EntityUtils.getEntityUUID(player).getNow(null);
         if (playerUUID == null) return;
