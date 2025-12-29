@@ -33,6 +33,7 @@ import org.figuramc.figura.ducks.FiguraEntityRenderStateExtension;
 import org.figuramc.figura.lua.api.ClientAPI;
 import org.figuramc.figura.lua.api.nameplate.EntityNameplateCustomization;
 import org.figuramc.figura.lua.api.vanilla_model.VanillaPart;
+import org.figuramc.figura.utils.EntityUtils;
 import org.figuramc.figura.permissions.Permissions;
 import org.figuramc.figura.utils.RenderUtils;
 import org.figuramc.figura.utils.TextUtils;
@@ -113,7 +114,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         // badges
         FiguraMod.popPushProfiler("badges");
         if (Minecraft.getInstance().level.getEntity(player.id) != null) { // null while dead
-			replacement = Badges.appendBadges(replacement, Minecraft.getInstance().level.getEntity(player.id).getUUID(), config > 1);
+			replacement = Badges.appendBadges(replacement, playerUUID, config > 1);
 		}
 
         FiguraMod.popPushProfiler("applyName");
@@ -144,8 +145,14 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         if (config == 0 || AvatarManager.panic || !(entity instanceof Player player) || this.entityRenderDispatcher.distanceToSqr(player) > 4096)
             return;
 
+		var playerUUID = EntityUtils.getEntityUUID(player).getNow(null);
+        if (playerUUID == null) return;
+
         // get customizations
-        Avatar avatar = AvatarManager.getAvatarForPlayer(player.getUUID());
+        var playerUUID = EntityUtils.getEntityUUID(player).getNow(null);
+        if (playerUUID == null) return;
+
+        avatar = AvatarManager.getAvatarForPlayer(playerUUID);
         EntityNameplateCustomization custom = avatar == null || avatar.luaRuntime == null ? null : avatar.luaRuntime.nameplate.ENTITY;
 
         // customization boolean, which also is the permission check
